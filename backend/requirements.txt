@@ -1,0 +1,13 @@
+Django==5.1.2
+gunicorn
+psycopg2-binary   
+whitenoise
+tzdata
+transformers
+sentence-transformers
+celery
+redis
+flower
+nltk
+pandas
+openpyxl

@@ -1,0 +1,57 @@
+# ⬇️ Python ⬇️
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ⬇️ Virtualenv ⬇️
+venv/
+env/
+.venv/
+.env/
+
+# ⬇️ Django ⬇️
+db.sqlite3
+celerybeat-schedule.db
+instance/
+media/
+staticfiles/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+.DS_Store
+.vscode/
+
+# ⬇️ Cache & Logs ⬇️
+cache/
+logs/
+*.log
+*.pot
+*.pyc
+*.swp
+
+# ⬇️ Docker ⬇️
+.dockerignore
+docker-compose.override.yml
+*.pid
+.env
+.envrc
+
+# ⬇️ Node.js (se usi frontend in React/Vue/Angular) ⬇️
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# ⬇️ JetBrains/PyCharm ⬇️
+.idea/
+.vscode/
+
+# ⬇️ System Files ⬇️
+Thumbs.db
+desktop.ini

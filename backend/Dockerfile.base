@@ -1,0 +1,14 @@
+# Usa l'immagine con CUDA già installata
+FROM cuda_installer AS base
+
+# Imposta la cartella di lavoro
+WORKDIR /app
+
+# Usa volumi per caching pip e Hugging Face
+ENV PIP_CACHE_DIR=/root/.cache/pip
+ENV HF_HOME=/app/cache/huggingface
+
+# Copia e installa le dipendenze
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+

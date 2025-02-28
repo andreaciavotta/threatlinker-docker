@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'vista:homepage' %}">Vista</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'vista:tasks_list' %}">Task List</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Task Details</li>
+        </ol>
+    </nav>
+
+    <!-- Section Header Card -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title mb-3">Task Details</h2>
+            <p class="card-text text-muted">Details of the selected task including its CVEs.</p>
+            <p class="card-text text-muted"><strong>Notes:</strong> {{ task.notes }}</p>
+            <p class="card-text text-muted"><strong>Type:</strong> {{ task.type }}</p>
+            <p class="card-text text-muted"><strong>Semantic Model:</strong> {{ task.ai_models }}</p>
+            <p class="card-text text-muted"><strong>Created at:</strong> {{ task.created_at }}</p>
+            <p class="card-text text-muted"><strong>Updated at:</strong> {{ task.updated_at }}</p>
+            <p class="card-text text-muted"><strong>Related CVEs:</strong> {{ cve_details|length }}</p>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <div class="mb-4" style="background-color: #e9ecef; padding: 15px; border-radius: 5px; width: 100%;">
+            <div class="d-flex align-items-center gap-3">
+                <a href="{% url 'vista:export_task_excel' task.id %}" class="btn btn-danger">
+                    Export Excel
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CVE Analysis Table -->
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title">Analyzed CVEs</h4>
+                <table id="cveSummaryTable" class="table table-striped display responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>CVE ID</th>
+                            <th>Description</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cve_details %}
+                        <tr>
+                            <td>{{ item.cve_id }}</td>
+                            <td>{{ item.description|truncatewords:10 }}</td>
+                            <td>
+                                <a href="{% url 'vista:single_correlation_detail' task.id item.cve_id %}" class="btn btn-info">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% load custom_filters %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'vista:homepage' %}">Vista</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'vista:tasks_list' %}">Task List</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'vista:task_detail' task.id %}">Task Details</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ cve.id }}</li>
+        </ol>
+    </nav>
+
+    <!-- Section Header Card -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title mb-3">Correlation results for {{ cve.id }}</h2>
+            <p class="card-text text-muted"><strong>Description:</strong> {{ cve.description }}</p>
+        </div>
+    </div>
+
+    {% if no_data %}
+        <div class="alert alert-warning">No CAPEC correlation found for this CVE.</div>
+    {% else %}
+    <!-- Tabella delle CAPEC correlate -->
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Related CAPECs Ranking - {{ formatted_model_name }}</h4>
+                <p class="card-description">Mostrando le CAPEC correlate con il punteggio finale.</p>
+                <table id="capecTable" class="table table-striped display responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>CAPEC ID</th>
+                            <th>CAPEC Name</th>
+                            <th>Rank</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for capec_id, capec_data in capec_ranking %}
+                        <tr>
+                            <td><a href="{% url 'vista:view_capec' capec_id %}" target="_blank">{{ capec_id }}</a></td>
+                            <td>{{ capec_details|get_item:capec_id }}</td>
+                            <td>{{ capec_data.rank }}</td>
+                            <td>
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#capecModal{{ capec_id }}">
+                                    View Details
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- Modale per i dettagli -->
+                        <div class="modal fade" id="capecModal{{ capec_id }}" tabindex="-1" aria-labelledby="capecModalLabel{{ capec_id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="capecModalLabel{{ capec_id }}">Details for CAPEC {{ capec_id }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <ul>
+                                            {% for key, value in capec_data.items %}
+                                                {% if key != "rank" %}
+                                                    <li><strong>{{ key|capfirst }}:</strong> {{ value|floatformat:3 }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#capecTable').DataTable({
+            "responsive": true,
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "pageLength": 5,
+            "order": [[2, "asc"]],  // Ordina automaticamente la terza colonna (indice 2) in ordine crescente
+            "columnDefs": [
+                { "orderable": true, "targets": 2, "type": "num" }  // Assicura che il Rank sia numerico
+            ]
+        });
+        $('#capecTable').fadeIn();
+    });
+</script>
+
+{% endblock %}

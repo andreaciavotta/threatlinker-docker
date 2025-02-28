@@ -1,0 +1,6 @@
+FROM base AS celery
+
+WORKDIR /app
+COPY . .
+
+CMD ["celery", "-A", "threatlinker", "worker", "--loglevel=info", "--queues=heavy_tasks", "--concurrency=4"]

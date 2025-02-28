@@ -1,0 +1,40 @@
+<!-- partial:partials/_sidebar.html -->
+{% load static %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'vista:homepage' %}">
+        <i class="mdi mdi-view-dashboard menu-icon"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+        <i class="menu-icon mdi mdi-database-cog-outline"></i>
+        <span class="menu-title">Database</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="ui-basic">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="">Info</a></li>
+          <li class="nav-item"> <a class="nav-link" href="">Update</a></li>
+          <li class="nav-item"> <a class="nav-link" href="">Statistics</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+        <i class="menu-icon mdi mdi-skull-scan"></i>
+        <span class="menu-title">Tasks</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="tables">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{% url 'vista:create_task' %}">Create Task</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{% url 'vista:tasks_list' %}">Task List</a></li>
+        </ul>
+      </div>
+    </li> 
+  </ul>
+</nav>
+<!-- partial -->

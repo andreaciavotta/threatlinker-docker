@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'vista:homepage' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Task Summary</li>
+        </ol>
+    </nav>
+
+     <!-- Section Header Card -->
+     <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <i class="bi bi-link-45deg text-primary" style="font-size: 2rem;"></i>
+                </div>
+                <div>
+                    <h2 class="card-title mb-1"></h2>Task Summary</h2>
+                    <p class="card-text text-muted">Here is a summary of your correlation request.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="card-title">Correlation Task Summary</h3>
+            <form method="POST" action="{% url 'vista:start_task' %}">
+            {% csrf_token %}
+
+            <p><strong>CVE Count:</strong> <a href="#" data-bs-toggle="modal" data-bs-target="#cveListModal">{{ cve_count }}</a></p>
+
+            <p><strong>Selected Similarity Methods:</strong> {{ selected_method }}</p>
+            <!-- Campi nascosti per passare le CVE e il metodo selezionato -->
+            <input type="hidden" name="cve_list" value="{{ cve_data }}">
+            <input type="hidden" name="similarity_method" value="{{ selected_method }}">
+            <!-- Input per nome e descrizione della task -->
+            <div class="mb-3">
+                <label for="task_name" class="form-label">Task Name:</label>
+                <input type="text" class="form-control" id="task_name" name="task_name">
+            </div>
+
+            <div class="mb-3">
+                <label for="task_description" class="form-label">Task Description:</label>
+                <textarea class="form-control" id="task_description" name="task_description" rows="3"></textarea>
+            </div>
+
+            <!-- Bottone per avviare la task -->
+            <button class="btn btn-danger" id="start-task-btn">Start Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal con lista delle CVE trovate -->
+    <div class="modal fade" id="cveListModal" tabindex="-1" aria-labelledby="cveListModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cveListModalLabel">CVE List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        {% for cve in cve_data %}
+                            <li>{{ cve }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
