@@ -68,6 +68,8 @@ def process_single_cve(cve, task_id, model):
         hybrid_scores = integrate_keyword_scores(semantic_results, keyword_scores)
         log_line = f"Hybrid scores: {hybrid_scores}\n"
 
+        _create_single_correlation(cve.id, hybrid_scores, task_id)
+
         result = {"status": "processed"}
     except Exception as e:
         result = {"status": "error", "message": str(e)}
