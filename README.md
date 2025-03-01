@@ -2,21 +2,21 @@
 
 ThreatLinker è una piattaforma di **correlazione tra vulnerabilità CVE e attacchi CAPEC**, progettata per analizzare e collegare automaticamente le vulnerabilità del **National Vulnerability Database (NVD)** ai pattern di attacco del **Common Attack Pattern Enumeration and Classification (CAPEC)**.
 
-## 🎯 **A cosa serve ThreatLinker?**
-- **🔗 Correlazione automatica tra CVE e CAPEC**  
+##  **A cosa serve ThreatLinker?**
+- **Correlazione automatica tra CVE e CAPEC**  
   Analizza vulnerabilità **CVE** e le collega ai relativi **pattern di attacco CAPEC**.
   
-- **🤖 Machine Learning e NLP per la sicurezza informatica**  
+- **Machine Learning e NLP per la sicurezza informatica**  
   Utilizza modelli avanzati come **SBERT** e **AttackBERT** per identificare relazioni tra vulnerabilità e tecniche di attacco.
 
-- **⚡ Supporto per GPU NVIDIA**  
+- **Supporto per GPU NVIDIA**  
   Accelerazione tramite **CUDA** per elaborazioni più veloci su grandi dataset.
 
-- **🔄 Aggiornamento automatico dei dati**  
-  Scarica e importa automaticamente gli ultimi dataset CVE, CAPEC e CWE.
+- **Aggiornamento automatico dei dati**  
+  Scarica e importa automaticamente gli ultimi dataset CVE, CAPEC.
 
 ---
-## 📌 **Prerequisiti**
+## **Prerequisiti**
 
 Per eseguire correttamente il progetto, assicurati di avere i seguenti componenti installati sul tuo sistema operativo.
 
