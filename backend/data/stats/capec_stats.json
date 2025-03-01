@@ -1,0 +1,54 @@
+{
+    "total_capec_count": 615,
+    "deprecated_capec_count": 56,
+    "valid_capec_count": 559,
+    "capecs_with_execution_flow_count": 239,
+    "capecs_without_execution_flow_count": 320,
+    "total_attack_steps_count": 815,
+    "attack_step_distribution": {
+        "3": {
+            "count": 102,
+            "percentage": 42.67782426778243
+        },
+        "4": {
+            "count": 85,
+            "percentage": 35.56485355648535
+        },
+        "5": {
+            "count": 12,
+            "percentage": 5.02092050209205
+        },
+        "2": {
+            "count": 30,
+            "percentage": 12.552301255230125
+        },
+        "6": {
+            "count": 5,
+            "percentage": 2.092050209205021
+        },
+        "1": {
+            "count": 3,
+            "percentage": 1.2552301255230125
+        },
+        "8": {
+            "count": 2,
+            "percentage": 0.8368200836820083
+        }
+    },
+    "avg_attack_steps_per_capec": 3.410041841004184,
+    "phase_distribution": {
+        "Experiment": {
+            "count": 292,
+            "percentage": 35.828220858895705
+        },
+        "Explore": {
+            "count": 269,
+            "percentage": 33.00613496932515
+        },
+        "Exploit": {
+            "count": 254,
+            "percentage": 31.16564417177914
+        }
+    },
+    "last_updated": "2025-03-01T00:02:08.067695"
+}

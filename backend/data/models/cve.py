@@ -18,8 +18,16 @@ class CVE(models.Model):
     def __str__(self):
         return self.id
     
+    def get_cvss_v2_info(self, key):
+        return self.impact_v2.get('cvssV2', {}).get(key, 'N/A') if self.impact_v2 else 'N/A'
+
+    def get_cvss_v3_info(self, key):
+        return self.impact_v3.get('cvssV3', {}).get(key, 'N/A') if self.impact_v3 else 'N/A'
+    
+    # Funzioni per gli impatti V2
+
     def get_vector_string(self):
-        return self.impact_v2.get('vectorString', 'N/A')
+        return self.impact_v2.get('cvssV2', {}).get('vectorString', 'N/A')
 
     def get_attack_vector(self):
         return self.impact_v2.get('cvssV2', {}).get('accessVector', 'N/A')
@@ -98,6 +106,39 @@ class CVE(models.Model):
         if self.impact_v3 and 'cvssV3' in self.impact_v3:
             return self.impact_v3['cvssV3'].get('scope', 'No scope information available.')
         return 'Impact V3 data is not available.'
+    
+    # Funzioni per ottenere il rating di rischio
+    
+    def get_rating_v2(self):
+        score = self.get_base_score()
+        if score != 'N/A':
+            return self.calculate_rating(score)
+        return None
+
+    def get_rating_v3(self):
+        score = self.get_base_score_v3()
+        if score != 'N/A':
+            return self.calculate_rating(score)
+        return None
+
+    def get_overall_rating(self):
+        # Ritorna il rating di v3 se disponibile, altrimenti di v2, o None se nessuno è presente
+        if self.impact_v3 and 'cvssV3' in self.impact_v3:
+            return self.get_rating_v3()
+        elif self.impact_v2 and 'cvssV2' in self.impact_v2:
+            return self.get_rating_v2()
+        return None
+
+    def calculate_rating(self, score):
+        if 0.1 <= score <= 3.9:
+            return "Low"
+        elif 4.0 <= score <= 6.9:
+            return "Medium"
+        elif 7.0 <= score <= 8.9:
+            return "High"
+        elif 9.0 <= score <= 10.0:
+            return "Critical"
+        return None
     
 
     

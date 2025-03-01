@@ -15,4 +15,5 @@ urlpatterns = [
     path('view/cve/<str:cve_id>/', views.view_cve, name='view_cve'),
     path('view/capec/<str:capec_id>/', views.view_capec, name='view_capec'),
     path('view/error/', views.view_error_page, name='view_error'),
+    path('stats/', views.database_stats_view, name="database_stats"),
 ]

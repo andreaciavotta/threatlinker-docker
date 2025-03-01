@@ -51,7 +51,7 @@
                     <tbody>
                         {% for item in cve_details %}
                         <tr>
-                            <td>{{ item.cve_id }}</td>
+                            <td><a href="{% url 'vista:view_cve' item.cve_id %}">{{ item.cve_id }}</a></td>
                             <td>{{ item.description|truncatewords:10 }}</td>
                             <td>
                                 <a href="{% url 'vista:single_correlation_detail' task.id item.cve_id %}" class="btn btn-info">

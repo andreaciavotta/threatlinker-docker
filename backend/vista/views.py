@@ -15,6 +15,8 @@ import os
 import datetime
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill
+from data.stats.capec_stats import get_capec_statistics
+from data.stats.cve_stats import get_cve_statistics
 
 def homepage(request):
     return render(request, 'homepage.html')
@@ -335,3 +337,8 @@ def export_task_excel(request, task_id):
         response["Content-Disposition"] = f"attachment; filename={filename}"
 
     return response
+
+def database_stats_view(request):
+    cve_stats = get_cve_statistics()
+    capec_stats = get_capec_statistics()
+    return render(request, 'database/stats.html', {'cve_stats': cve_stats, 'capec_stats': capec_stats})
