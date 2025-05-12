@@ -11,3 +11,6 @@ flower
 nltk
 pandas
 openpyxl
+djangorestframework
+requests
+pytz

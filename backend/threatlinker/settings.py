@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'core',
     'data',
     'vista',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,5 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
+# Se ip2 vuole un token di autenticazione
+IP2_TOKEN = "xyz-abc-123"

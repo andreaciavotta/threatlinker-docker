@@ -28,7 +28,17 @@ def process_task_with_chord(task_id):
         print(error_msg)
         return error_msg
 
-    cve_list = ast.literal_eval(task.cve_hosts)
+    cve_list = []
+
+    if isinstance(task.cve_hosts, list):
+        cve_list = task.cve_hosts
+    elif isinstance(task.cve_hosts, str):
+        try:
+            import ast
+            cve_list = ast.literal_eval(task.cve_hosts)
+        except Exception as e:
+            print(f"[WARN] Errore parsing stringa cve_hosts: {e}")
+            cve_list = []
 
     if not cve_list:
         error_msg = f"Nessuna CVE trovata per la task {task_id}"

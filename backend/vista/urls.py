@@ -1,7 +1,9 @@
 from django.urls import path
 from vista import views  # Assicurati che il modulo esista e sia corretto
+from vista.views_api import ThreatAnalysisView
 
 app_name = 'vista' 
+
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
@@ -16,4 +18,5 @@ urlpatterns = [
     path('view/capec/<str:capec_id>/', views.view_capec, name='view_capec'),
     path('view/error/', views.view_error_page, name='view_error'),
     path('stats/', views.database_stats_view, name="database_stats"),
+    path("threatAnalysis", ThreatAnalysisView.as_view(), name="api_threat_analysis"),  
 ]

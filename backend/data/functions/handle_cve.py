@@ -14,34 +14,7 @@ CVE_BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-{}.json.zip" 
 def download_cve_data():
     """Scarica i file ZIP delle CVE per ogni anno dal 2002 ad oggi e li salva nella directory /download/cve/"""
 
-    os.makedirs(CVE_DOWNLOAD_DIR, exist_ok=True)  # Crea la cartella se non esiste
-    current_year = datetime.now().year
-    downloaded_files = []
-
-    for year in range(2002, current_year + 1):
-        url = CVE_BASE_URL.format(year)
-        filename = f"nvdcve-1.1-{year}.json.zip"
-        file_path = os.path.join(CVE_DOWNLOAD_DIR, filename)
-
-        if not os.path.exists(file_path):  # Scarica solo se non esiste già
-            print(f"Downloading {url}...")
-            response = requests.get(url, stream=True)
-            
-            if response.status_code == 200:
-                with open(file_path, "wb") as f:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        f.write(chunk)
-                print(f"File scaricato: {file_path}")
-                downloaded_files.append(file_path)
-                
-                # Estrai il file ZIP
-                extract_zip_file(file_path, CVE_DOWNLOAD_DIR)
-                print(f"File estratto in {CVE_DOWNLOAD_DIR}")
-
-            else:
-                print(f"Errore durante il download di {url}: {response.status_code}")
-
-    return downloaded_files
+    return True
 
 def extract_zip_file(zip_path, extract_to):
     """Estrai un file ZIP nella directory specificata."""
@@ -55,6 +28,17 @@ def extract_zip_file(zip_path, extract_to):
 
 def import_cve_data():
     """Importa i dati CVE nel database solo se non sono già presenti."""
+    # Estrai lo ZIP se necessario
+    zip_path = os.path.join(CVE_DOWNLOAD_DIR, "nvdcve.zip")
+    extracted_flag = os.path.join(CVE_DOWNLOAD_DIR, ".extracted_flag")
+
+    if os.path.exists(zip_path) and not os.path.exists(extracted_flag):
+        print("📦 Estrazione CVE 2002-2025 file ZIP...")
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall(CVE_DOWNLOAD_DIR)
+        with open(extracted_flag, "w") as f:
+            f.write("done")
+        print("✅ Estrazione completata.")
 
     json_files = sorted(
         [f for f in os.listdir(CVE_DOWNLOAD_DIR) if f.endswith(".json")],

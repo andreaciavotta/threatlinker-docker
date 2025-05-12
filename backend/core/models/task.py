@@ -22,6 +22,8 @@ class Task(models.Model):
     notes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    callback_url = models.URLField(blank=True, null=True)
+
     
     def __str__(self):
         return f"{self.id} - {self.name} ({self.get_type_display()})"
